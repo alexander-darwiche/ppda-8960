@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\usepackage[margin=1in, top=0.5in]{geometry}
+
+
+\title{Practical Differentially Private Hyperparameter Tuning with Subsampling}
+
+
+% \author{
+%     Tejas Kulkarni\\
+%     \And
+%     Antti Kosekela
+% }
+
+\begin{document}
+
+    \maketitle
+
+    \section{Introduction}\label{sec:introduction}
+    This paper introduces a new technique for hyperparameter tuning that accomplishes 2 main goals: First, to reduce the privacy cost associated with 
+    hyperparameter tuning and second to reduce the computational load required to tune hyperparameters. Often in practice, the privacy cost of finding "best"
+    hyperparameters is overlooked, however there is a very real likelihood of having training data that is sensitive and thus requiring of differential privacy.
+    While the hyperparameters themselves might be tough to engineer an adverserial attack with, these authors reference Steinke and Papernot (2022) which illustrated
+    the leakage that can come from hyperparameter releases and their associated membership inference attacks.
+
+    The Steinke and Papernot (2022) paper contains the "best" algorithms to date for differentially private hyperparameter tuning, though our authors indicate that
+    their DP cost is still very high. Kulkarni and Koskela, authors of this paper, try to build on the work done by Steinke and Papernot (2022), so as to improve on
+    those 2 main nodes of improvement. The novel contribution of this paper is adding in Poisson Subsampling to the already established algorithm for finding
+    "best" hyperparameters.
+
+    The established algorithm is from the Steinke and Papernot (2022) paper and can be summarized in a few steps. First, assume that the use a Truncated Negative Binomial
+    or Poisson Distribution. From either distribution, select a number $\mathcal{K}$. $\mathcal{K}$ will be the number of hyperparameter tuning runs that you will run. 
+    This is all wrapped in an algorithm $\mathcal{A}: \mathcal{X}^{N} \rightarrow \mathcal{R}$ which will return the "best" hyperparameters from those $\mathcal{K}$ runs.
+    For both distributions, the privacy cost calculation beats composition, meaning that they are able to prove a tighter upper bound on privacy loss than with composition. 
+    
+    Kulkarni and Koskela borrow the Algorithm $\mathcal{A}$ and also implement subsampling and hyperparameter extrapolation. To describe the full approach
+    in this paper, first you begin by selecting a subsample from the current training dataset, with some probability $\mathcal{q}$. This is known as "Poisson Sumsampling"
+    as the amount of values selected, over multiple iterations, will follow a poisson distribution. So, you select the subsample $\mathcal{X}_i$. Now, you perform the the algorithm
+    $\mathcal{A}$ to return the best hyperparameters $\mathcal{M}$ for this problem. 
+    
+    Next, you've got to extrapolate these found hyperparameters to 1 of 2 datasets. 2 variants are proposed in this paper. For variant 1, you extrapolate to the 
+    remaining dataset, i.e. all the training dataset that is not in the poisson subsample $\mathcal{X}_i$. To conver
+
+    \section{Formal Description of Models Tried}\label{sec:models}
+
+    \section{Related Work}\label{sec:related-work}
+
+    \section{Preliminary Results}\label{sec:prelim-results}
+ 
+    \section{Discussion of Results}\label{sec:results-discussion}
+
+    \section{Learned and Plans}\label{sec:learned-and-plans}
+    
+
+    \bibliographystyle{plain}
+    \bibliography{references}
+
+
+
+\end{document}
